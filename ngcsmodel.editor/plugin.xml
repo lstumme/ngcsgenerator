@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated ngcsmodel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="com.home.ludo.ngcs.ngcsmodel.presentation.NgcsmodelModelWizardID"
+            name="%_UI_NgcsmodelModelWizard_label"
+            class="com.home.ludo.ngcs.ngcsmodel.presentation.NgcsmodelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/NgcsmodelModelFile.gif">
+         <description>%_UI_NgcsmodelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated ngcsmodel -->
+      <editor
+            id="com.home.ludo.ngcs.ngcsmodel.presentation.NgcsmodelEditorID"
+            name="%_UI_NgcsmodelEditor_label"
+            icon="icons/full/obj16/NgcsmodelModelFile.gif"
+            extensions="ngcsmodel"
+            class="com.home.ludo.ngcs.ngcsmodel.presentation.NgcsmodelEditor"
+            contributorClass="com.home.ludo.ngcs.ngcsmodel.presentation.NgcsmodelActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

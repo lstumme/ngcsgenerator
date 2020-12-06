@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ngcsmodel" nsURI="http://home.ludo.com/ngcsmodel" nsPrefix="ngcsmodel">
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ngcsproperty" upperBound="-1"
+        eType="#//NgcsProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NgcsDataType">
+    <eLiterals name="String"/>
+    <eLiterals name="Number" value="1"/>
+    <eLiterals name="Date" value="2"/>
+    <eLiterals name="Boolean" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ngcsmodule" upperBound="-1"
+        eType="#//NgcsModule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="manager" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsModule">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Package conteneur"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edata" upperBound="-1"
+        eType="#//NgcsData" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsProperty" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hidden" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsArrayProperty" abstract="true" eSuperTypes="#//NgcsProperty"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsAttribute" eSuperTypes="#//NgcsSingleProperty">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//NgcsDataType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsAggregation" eSuperTypes="#//NgcsArrayProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refTo" eType="#//NgcsData"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsReference" eSuperTypes="#//NgcsSingleProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refTo" eType="#//NgcsData"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isKey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NgcsSingleProperty" abstract="true"
+      eSuperTypes="#//NgcsProperty">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="crypted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+</ecore:EPackage>
