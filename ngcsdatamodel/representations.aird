@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ngcsmodel="http://home.ludo.com/ngcsmodel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description">
+  <viewpoint:DAnalysis uid="_dKc3QDgQEeuCmvF0QXI3_g" selectedViews="_3FYIMDgQEeuCmvF0QXI3_g" version="14.3.1.202003261200">
+    <semanticResources>data.ngcsmodel</semanticResources>
+    <ownedViews xmi:type="viewpoint:DView" uid="_3FYIMDgQEeuCmvF0QXI3_g">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']"/>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_DaHQQDgREeuCmvF0QXI3_g" name="Architecture" repPath="#_DZp9QDgREeuCmvF0QXI3_g" changeId="f1b0d85c-b3e2-45ac-9dd4-77f476285274">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']"/>
+        <target xmi:type="ngcsmodel:NgcsProject" href="data.ngcsmodel#/"/>
+      </ownedRepresentationDescriptors>
+    </ownedViews>
+  </viewpoint:DAnalysis>
+  <diagram:DSemanticDiagram uid="_DZp9QDgREeuCmvF0QXI3_g">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_Da23IDgREeuCmvF0QXI3_g" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_Da23ITgREeuCmvF0QXI3_g" type="Sirius" element="_DZp9QDgREeuCmvF0QXI3_g" measurementUnit="Pixel">
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_Da23IjgREeuCmvF0QXI3_g"/>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_DbABEDgREeuCmvF0QXI3_g" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_DbAoIDgREeuCmvF0QXI3_g"/>
+    </ownedAnnotationEntries>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_DZ3YoDgREeuCmvF0QXI3_g"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer"/>
+    <target xmi:type="ngcsmodel:NgcsProject" href="data.ngcsmodel#/"/>
+  </diagram:DSemanticDiagram>
+</xmi:XMI>
