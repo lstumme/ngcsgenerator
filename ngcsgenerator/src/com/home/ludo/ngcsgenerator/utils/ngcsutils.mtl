@@ -2,8 +2,8 @@
 [module ngcsutils('http://home.ludo.com/ngcsmodel')]
 [query public createElementName(ngcsdata: NgcsData, aggregation: NgcsAggregation) : String
 	= invoke(
-		'com.home.ludo.ngcs.generator.services.NgcsServices', 
-		'getFieldName(com.home.ludo.ngcs.generator.ngcsmodel.NgcsData, com.home.ludo.ngcs.generator.ngcsmodel.NgcsAggregation)',
+		'com.home.ludo.ngcsgenerator.services.NgcsServices', 
+		'getFieldName(com.home.ludo.ngcs.ngcsmodel.NgcsData, com.home.ludo.ngcs.ngcsmodel.NgcsAggregation)',
 		Sequence{ngcsdata, aggregation}
 
 	)
@@ -11,8 +11,8 @@
 
 [query public getDependencies(ngcsdata: NgcsData) : OrderedSet(NgcsData) 
 	= invoke(
-		'com.home.ludo.ngcs.generator.services.NgcsServices', 
-		'getDependencies(com.home.ludo.ngcs.generator.ngcsmodel.NgcsData)',
+		'com.home.ludo.ngcsgenerator.services.NgcsServices', 
+		'getDependencies(com.home.ludo.ngcs.ngcsmodel.NgcsData)',
 		Sequence{ngcsdata}
 	)/] 
 
