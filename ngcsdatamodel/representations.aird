@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ngcsmodel="http://home.ludo.com/ngcsmodel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ngcsmodel="http://home.ludo.com/ngcsmodel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style">
   <viewpoint:DAnalysis uid="_dKc3QDgQEeuCmvF0QXI3_g" selectedViews="_3FYIMDgQEeuCmvF0QXI3_g" version="14.3.1.202003261200">
     <semanticResources>data.ngcsmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_3FYIMDgQEeuCmvF0QXI3_g">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_DaHQQDgREeuCmvF0QXI3_g" name="Architecture" repPath="#_DZp9QDgREeuCmvF0QXI3_g" changeId="f1b0d85c-b3e2-45ac-9dd4-77f476285274">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_DaHQQDgREeuCmvF0QXI3_g" name="Architecture" repPath="#_DZp9QDgREeuCmvF0QXI3_g" changeId="714cf456-ed32-47bd-842d-eb5166c1fb5a">
         <description xmi:type="description_1:DiagramDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']"/>
         <target xmi:type="ngcsmodel:NgcsProject" href="data.ngcsmodel#/"/>
       </ownedRepresentationDescriptors>
@@ -13,12 +13,260 @@
   <diagram:DSemanticDiagram uid="_DZp9QDgREeuCmvF0QXI3_g">
     <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_Da23IDgREeuCmvF0QXI3_g" source="GMF_DIAGRAMS">
       <data xmi:type="notation:Diagram" xmi:id="_Da23ITgREeuCmvF0QXI3_g" type="Sirius" element="_DZp9QDgREeuCmvF0QXI3_g" measurementUnit="Pixel">
+        <children xmi:type="notation:Node" xmi:id="_XmFIYDgTEeuCmvF0QXI3_g" type="2002" element="_Xl130DgTEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_XmIywDgTEeuCmvF0QXI3_g" type="5006"/>
+          <children xmi:type="notation:Node" xmi:id="_XmLPADgTEeuCmvF0QXI3_g" type="7001">
+            <children xmi:type="notation:Node" xmi:id="_h_CY4DgWEeuCmvF0QXI3_g" type="3009" element="_h-6dEDgWEeuCmvF0QXI3_g">
+              <children xmi:type="notation:Node" xmi:id="_h_C_8DgWEeuCmvF0QXI3_g" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_h_EOEDgWEeuCmvF0QXI3_g" type="7003">
+                <children xmi:type="notation:Node" xmi:id="_jU_CsDgXEeuCmvF0QXI3_g" type="3010" element="_jUukADgXEeuCmvF0QXI3_g">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_jU_CsTgXEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="12"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_jU_CsjgXEeuCmvF0QXI3_g"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_h_EOETgWEeuCmvF0QXI3_g"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_h_EOEjgWEeuCmvF0QXI3_g"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_h_CY4TgWEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="12"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_h_CY4jgWEeuCmvF0QXI3_g" x="13" y="60" width="177" height="147"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_XmLPATgTEeuCmvF0QXI3_g"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_XmLPAjgTEeuCmvF0QXI3_g"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_XmFIYTgTEeuCmvF0QXI3_g" fontName="Segoe UI"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XmFIYjgTEeuCmvF0QXI3_g" x="18" y="18" width="267" height="231"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_jU8mcDgXEeuCmvF0QXI3_g" type="2001" element="_jU2f0DgXEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_jU9NgDgXEeuCmvF0QXI3_g" type="5002">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_jU90kDgXEeuCmvF0QXI3_g" y="5"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_jU8mcTgXEeuCmvF0QXI3_g" fontName="Segoe UI"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jU8mcjgXEeuCmvF0QXI3_g" x="324" y="246" width="20" height="20"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_V1rvgDgYEeuCmvF0QXI3_g" type="2002" element="_V1oFIDgYEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_V1sWkDgYEeuCmvF0QXI3_g" type="5006"/>
+          <children xmi:type="notation:Node" xmi:id="_V1sWkTgYEeuCmvF0QXI3_g" type="7001">
+            <children xmi:type="notation:Node" xmi:id="_AHPQoDgZEeuCmvF0QXI3_g" type="3009" element="_AHKYIDgZEeuCmvF0QXI3_g">
+              <children xmi:type="notation:Node" xmi:id="_AHP3sDgZEeuCmvF0QXI3_g" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_AHP3sTgZEeuCmvF0QXI3_g" type="7003">
+                <children xmi:type="notation:Node" xmi:id="_63_LQDgdEeuCmvF0QXI3_g" type="3010" element="_638vAjgdEeuCmvF0QXI3_g">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_63_LQTgdEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="10" bold="true"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_63_LQjgdEeuCmvF0QXI3_g"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_4J9CQjgeEeuCmvF0QXI3_g" type="3010" element="_4J7NEDgeEeuCmvF0QXI3_g">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_4J9CQzgeEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="10" bold="true"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_4J9CRDgeEeuCmvF0QXI3_g"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_AHP3sjgZEeuCmvF0QXI3_g"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_AHP3szgZEeuCmvF0QXI3_g"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_AHPQoTgZEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="12"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AHPQojgZEeuCmvF0QXI3_g" x="13" y="42" width="195" height="141"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_V1sWkjgYEeuCmvF0QXI3_g"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_V1sWkzgYEeuCmvF0QXI3_g"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_V1rvgTgYEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_V1rvgjgYEeuCmvF0QXI3_g" x="396" y="123" width="267" height="267"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_63-kMDgdEeuCmvF0QXI3_g" type="2001" element="_636SwDgdEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_63-kMzgdEeuCmvF0QXI3_g" type="5002">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_63-kNDgdEeuCmvF0QXI3_g" y="5"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_63-kMTgdEeuCmvF0QXI3_g" fontName="Segoe UI"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_63-kMjgdEeuCmvF0QXI3_g" x="334" y="246" width="20" height="20"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_gFMBsDgeEeuCmvF0QXI3_g" type="2002" element="_gFIXUDgeEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_gFMowDgeEeuCmvF0QXI3_g" type="5006"/>
+          <children xmi:type="notation:Node" xmi:id="_gFMowTgeEeuCmvF0QXI3_g" type="7001">
+            <children xmi:type="notation:Node" xmi:id="_gsCmUDgeEeuCmvF0QXI3_g" type="3009" element="_gr9t0DgeEeuCmvF0QXI3_g">
+              <children xmi:type="notation:Node" xmi:id="_gsCmUzgeEeuCmvF0QXI3_g" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_gsDNYDgeEeuCmvF0QXI3_g" type="7003">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_gsDNYTgeEeuCmvF0QXI3_g"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_gsDNYjgeEeuCmvF0QXI3_g"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_gsCmUTgeEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="12"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gsCmUjgeEeuCmvF0QXI3_g" x="89" y="52"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_gFMowjgeEeuCmvF0QXI3_g"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_gFMowzgeEeuCmvF0QXI3_g"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_gFMBsTgeEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gFMBsjgeEeuCmvF0QXI3_g" x="36" y="265"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_4J8bMDgeEeuCmvF0QXI3_g" type="2001" element="_4J5X4DgeEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_4J9CQDgeEeuCmvF0QXI3_g" type="5002">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_4J9CQTgeEeuCmvF0QXI3_g" y="5"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_4J8bMTgeEeuCmvF0QXI3_g" fontName="Segoe UI"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4J8bMjgeEeuCmvF0QXI3_g" x="372" y="256" width="20" height="20"/>
+        </children>
         <styles xmi:type="notation:DiagramStyle" xmi:id="_Da23IjgREeuCmvF0QXI3_g"/>
+        <edges xmi:type="notation:Edge" xmi:id="_63_LQzgdEeuCmvF0QXI3_g" type="4001" element="_632oYDgdEeuCmvF0QXI3_g" source="_AHPQoDgZEeuCmvF0QXI3_g" target="_h_CY4DgWEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_63_yUDgdEeuCmvF0QXI3_g" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_63_yUTgdEeuCmvF0QXI3_g" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_63_yUjgdEeuCmvF0QXI3_g" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_63_yUzgdEeuCmvF0QXI3_g" y="10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_63_yVDgdEeuCmvF0QXI3_g" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_63_yVTgdEeuCmvF0QXI3_g" y="10"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_63_LRDgdEeuCmvF0QXI3_g"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_63_LRTgdEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="8" bold="true"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_63_LRjgdEeuCmvF0QXI3_g" points="[0, 0, 203, 90]$[-203, -90, 0, 0]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_63_yVjgdEeuCmvF0QXI3_g" id="(0.0,0.6258992805755396)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_63_yVzgdEeuCmvF0QXI3_g" id="(1.0,0.5793103448275863)"/>
+        </edges>
+        <edges xmi:type="notation:Edge" xmi:id="_4J9pUDgeEeuCmvF0QXI3_g" type="4001" element="_4J1tgDgeEeuCmvF0QXI3_g" source="_AHPQoDgZEeuCmvF0QXI3_g" target="_gsCmUDgeEeuCmvF0QXI3_g">
+          <children xmi:type="notation:Node" xmi:id="_4J-QYDgeEeuCmvF0QXI3_g" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4J-QYTgeEeuCmvF0QXI3_g" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_4J-QYjgeEeuCmvF0QXI3_g" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4J-QYzgeEeuCmvF0QXI3_g" y="10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_4J-QZDgeEeuCmvF0QXI3_g" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4J-QZTgeEeuCmvF0QXI3_g" y="10"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_4J9pUTgeEeuCmvF0QXI3_g"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_4J9pUjgeEeuCmvF0QXI3_g" fontName="Segoe UI" fontHeight="8"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4J9pUzgeEeuCmvF0QXI3_g" points="[0, 0, 224, -84]$[-224, 84, 0, 0]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4J-QZjgeEeuCmvF0QXI3_g" id="(0.0,0.7553956834532374)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4J-QZzgeEeuCmvF0QXI3_g" id="(1.0,0.7254901960784313)"/>
+        </edges>
       </data>
     </ownedAnnotationEntries>
     <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_DbABEDgREeuCmvF0QXI3_g" source="DANNOTATION_CUSTOMIZATION_KEY">
       <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_DbAoIDgREeuCmvF0QXI3_g"/>
     </ownedAnnotationEntries>
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_Xl130DgTEeuCmvF0QXI3_g" name="ngcsroles">
+      <target xmi:type="ngcsmodel:NgcsModule" href="data.ngcsmodel#//@ngcsmodule.0"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsModule" href="data.ngcsmodel#//@ngcsmodule.0"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_pC6WMTgUEeuCmvF0QXI3_g" labelSize="12" borderSize="1" borderSizeComputationExpression="1" foregroundColor="194,239,255">
+        <labelFormat>underline</labelFormat>
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_h-6dEDgWEeuCmvF0QXI3_g" name="Roles" incomingEdges="_632oYDgdEeuCmvF0QXI3_g">
+        <target xmi:type="ngcsmodel:NgcsData" href="data.ngcsmodel#//@ngcsmodule.0/@edata.0"/>
+        <semanticElements xmi:type="ngcsmodel:NgcsData" href="data.ngcsmodel#//@ngcsmodule.0/@edata.0"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_h-7EIDgWEeuCmvF0QXI3_g" labelSize="12" borderSize="1" borderSizeComputationExpression="1">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_jUukADgXEeuCmvF0QXI3_g" name="attribute : String">
+          <target xmi:type="ngcsmodel:NgcsAttribute" href="data.ngcsmodel#//@ngcsmodule.0/@edata.0/@ngcsproperty.0"/>
+          <semanticElements xmi:type="ngcsmodel:NgcsAttribute" href="data.ngcsmodel#//@ngcsmodule.0/@edata.0/@ngcsproperty.0"/>
+          <ownedStyle xmi:type="diagram:BundledImage" uid="_jUxAQDgXEeuCmvF0QXI3_g" labelSize="10" labelAlignment="LEFT" labelPosition="node">
+            <description xmi:type="style:BundledImageDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Attribute']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Attribute']"/>
+        </ownedElements>
+      </ownedDiagramElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNode" uid="_jU2f0DgXEeuCmvF0QXI3_g">
+      <target xmi:type="ngcsmodel:NgcsAttribute" href="data.ngcsmodel#//@ngcsmodule.0/@edata.0/@ngcsproperty.0"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsAttribute" href="data.ngcsmodel#//@ngcsmodule.0/@edata.0/@ngcsproperty.0"/>
+      <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@nodeMappings[name='Property']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNode" uid="_636SwDgdEeuCmvF0QXI3_g">
+      <target xmi:type="ngcsmodel:NgcsReference" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.0"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsReference" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.0"/>
+      <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@nodeMappings[name='Property']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNode" uid="_4J5X4DgeEeuCmvF0QXI3_g">
+      <target xmi:type="ngcsmodel:NgcsAggregation" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.1"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsAggregation" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.1"/>
+      <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@nodeMappings[name='Property']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_V1oFIDgYEeuCmvF0QXI3_g" name="ngcsmodule">
+      <target xmi:type="ngcsmodel:NgcsModule" href="data.ngcsmodel#//@ngcsmodule.1"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsModule" href="data.ngcsmodel#//@ngcsmodule.1"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_V1oFITgYEeuCmvF0QXI3_g" labelSize="12" borderSize="1" borderSizeComputationExpression="1" foregroundColor="194,239,255">
+        <labelFormat>underline</labelFormat>
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_AHKYIDgZEeuCmvF0QXI3_g" name="Users" outgoingEdges="_632oYDgdEeuCmvF0QXI3_g _4J1tgDgeEeuCmvF0QXI3_g">
+        <target xmi:type="ngcsmodel:NgcsData" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0"/>
+        <semanticElements xmi:type="ngcsmodel:NgcsData" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_AHKYITgZEeuCmvF0QXI3_g" labelSize="12" borderSize="1" borderSizeComputationExpression="1">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_638vAjgdEeuCmvF0QXI3_g" name="role : Roles">
+          <target xmi:type="ngcsmodel:NgcsReference" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.0"/>
+          <semanticElements xmi:type="ngcsmodel:NgcsReference" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.0"/>
+          <ownedStyle xmi:type="diagram:BundledImage" uid="_638vAzgdEeuCmvF0QXI3_g" labelSize="10" labelAlignment="LEFT" labelPosition="node">
+            <labelFormat>bold</labelFormat>
+            <description xmi:type="style:BundledImageDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Reference']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Reference']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_4J7NEDgeEeuCmvF0QXI3_g" name="bouh :  [data]">
+          <target xmi:type="ngcsmodel:NgcsAggregation" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.1"/>
+          <semanticElements xmi:type="ngcsmodel:NgcsAggregation" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.1"/>
+          <ownedStyle xmi:type="diagram:BundledImage" uid="_4J7NETgeEeuCmvF0QXI3_g" labelSize="10" labelAlignment="LEFT" labelPosition="node">
+            <labelFormat>bold</labelFormat>
+            <description xmi:type="style:BundledImageDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Aggregation']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Aggregation']"/>
+        </ownedElements>
+      </ownedDiagramElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_632oYDgdEeuCmvF0QXI3_g" name="role" sourceNode="_AHKYIDgZEeuCmvF0QXI3_g" targetNode="_h-6dEDgWEeuCmvF0QXI3_g">
+      <target xmi:type="ngcsmodel:NgcsReference" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.0"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsReference" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.0"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_632oYTgdEeuCmvF0QXI3_g" size="2" strokeColor="77,137,20">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@edgeMappings[name='reference_edge']/@style"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_632oYjgdEeuCmvF0QXI3_g">
+          <labelFormat>bold</labelFormat>
+        </centerLabelStyle>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@edgeMappings[name='reference_edge']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_gFIXUDgeEeuCmvF0QXI3_g" name="ngcsmodule">
+      <target xmi:type="ngcsmodel:NgcsModule" href="data.ngcsmodel#//@ngcsmodule.2"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsModule" href="data.ngcsmodel#//@ngcsmodule.2"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_gFIXUTgeEeuCmvF0QXI3_g" labelSize="12" borderSize="1" borderSizeComputationExpression="1" foregroundColor="194,239,255">
+        <labelFormat>underline</labelFormat>
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_gr9t0DgeEeuCmvF0QXI3_g" name="data" incomingEdges="_4J1tgDgeEeuCmvF0QXI3_g">
+        <target xmi:type="ngcsmodel:NgcsData" href="data.ngcsmodel#//@ngcsmodule.2/@edata.0"/>
+        <semanticElements xmi:type="ngcsmodel:NgcsData" href="data.ngcsmodel#//@ngcsmodule.2/@edata.0"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_gr9t0TgeEeuCmvF0QXI3_g" labelSize="12" borderSize="1" borderSizeComputationExpression="1">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']"/>
+      </ownedDiagramElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_4J1tgDgeEeuCmvF0QXI3_g" name="bouh[]" sourceNode="_AHKYIDgZEeuCmvF0QXI3_g" targetNode="_gr9t0DgeEeuCmvF0QXI3_g">
+      <target xmi:type="ngcsmodel:NgcsAggregation" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.1"/>
+      <semanticElements xmi:type="ngcsmodel:NgcsAggregation" href="data.ngcsmodel#//@ngcsmodule.1/@edata.0/@ngcsproperty.1"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_4J2UkDgeEeuCmvF0QXI3_g" sourceArrow="FillDiamond" targetArrow="InputFillClosedArrow" size="2" strokeColor="156,12,12">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@edgeMappings[name='aggregation_edge']/@style"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_4J2UkTgeEeuCmvF0QXI3_g">
+          <labelFormat>bold</labelFormat>
+        </centerLabelStyle>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@edgeMappings[name='aggregation_edge']"/>
+    </ownedDiagramElements>
     <description xmi:type="description_1:DiagramDescription" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']"/>
     <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_DZ3YoDgREeuCmvF0QXI3_g"/>
     <activatedLayers xmi:type="description_1:Layer" href="platform:/resource/ngcsdesigner/description/ngcsdesigner.odesign#//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer"/>

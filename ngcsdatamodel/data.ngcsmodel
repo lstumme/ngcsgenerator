@@ -1,2 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ngcsmodel:NgcsProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ngcsmodel="http://home.ludo.com/ngcsmodel"/>
+<ngcsmodel:NgcsProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ngcsmodel="http://home.ludo.com/ngcsmodel" name="data">
+  <ngcsmodule name="ngcsroles">
+    <edata name="Roles">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="attribute"/>
+    </edata>
+  </ngcsmodule>
+  <ngcsmodule name="ngcsmodule">
+    <edata name="Users">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsReference" name="role" refTo="//@ngcsmodule.0/@edata.0"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAggregation" name="bouh" refTo="//@ngcsmodule.2/@edata.0"/>
+    </edata>
+  </ngcsmodule>
+  <ngcsmodule name="ngcsmodule">
+    <edata name="data"/>
+  </ngcsmodule>
+</ngcsmodel:NgcsProject>
