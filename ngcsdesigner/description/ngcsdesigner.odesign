@@ -119,7 +119,7 @@
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
                 <subModelOperations xsi:type="tool_1:CreateInstance" typeName="NgcsAggregation" referenceName="ngcsproperty">
                   <subModelOperations xsi:type="tool_1:SetValue" featureName="refTo" valueExpression="var:target"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:self.name + ' : ' + self.refTo.name"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:self.refTo.name.toLowerFirst()"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>

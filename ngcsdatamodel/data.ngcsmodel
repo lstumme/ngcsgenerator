@@ -1,17 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ngcsmodel:NgcsProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ngcsmodel="http://home.ludo.com/ngcsmodel" name="data">
   <ngcsmodule name="ngcsroles">
-    <edata name="Roles">
-      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="attribute"/>
+    <edata name="Role">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="name" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="label" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAggregation" name="subroles" refTo="//@ngcsmodule.0/@edata.0"/>
     </edata>
   </ngcsmodule>
-  <ngcsmodule name="ngcsmodule">
-    <edata name="Users">
-      <ngcsproperty xsi:type="ngcsmodel:NgcsReference" name="role" refTo="//@ngcsmodule.0/@edata.0"/>
-      <ngcsproperty xsi:type="ngcsmodel:NgcsAggregation" name="bouh" refTo="//@ngcsmodule.2/@edata.0"/>
+  <ngcsmodule name="ngcsusers">
+    <edata name="User">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="login" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="password" hidden="true" editable="true" required="true" crypted="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="email" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="firstname" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="lastname" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="avatar" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="creationDate" required="true" default="true" type="Date"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsReference" name="role" editable="true" required="true" refTo="//@ngcsmodule.0/@edata.0"/>
     </edata>
   </ngcsmodule>
-  <ngcsmodule name="ngcsmodule">
-    <edata name="data"/>
+  <ngcsmodule name="ngcstools">
+    <edata name="Tool">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="name" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="vendor" editable="true"/>
+    </edata>
+    <edata name="ToolVersion">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="version" required="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="location" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="informations" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsReference" name="tool" refTo="//@ngcsmodule.2/@edata.0"/>
+    </edata>
+    <edata name="Module">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="name" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="vendor" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="informations" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsReference" name="tool" refTo="//@ngcsmodule.2/@edata.0"/>
+    </edata>
+    <edata name="ModuleVersion">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="version" required="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="location" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="informations" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsReference" name="module" refTo="//@ngcsmodule.2/@edata.2"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="creationDate" required="true" default="true" type="Date"/>
+    </edata>
+    <edata name="Environment">
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="name" required="true" unique="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAttribute" name="informations" editable="true"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAggregation" name="modules" refTo="//@ngcsmodule.2/@edata.3"/>
+      <ngcsproperty xsi:type="ngcsmodel:NgcsAggregation" name="tools" refTo="//@ngcsmodule.2/@edata.1"/>
+    </edata>
   </ngcsmodule>
 </ngcsmodel:NgcsProject>
