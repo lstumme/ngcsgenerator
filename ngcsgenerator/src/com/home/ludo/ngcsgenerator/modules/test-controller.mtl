@@ -1,0 +1,1439 @@
+[comment encoding = UTF-8 /]
+[module test-controller('http://home.ludo.com/ngcsmodel')]
+[import com::home::ludo::ngcsgenerator::utils::ngcsutils/]
+
+
+[template public generateControllerTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+
+[file(ngcsmodule.name + '/test/' + ngcsdata.name.toLower() + '-controller.js', false,'UTF-8')]
+const { expect, assert } = require('chai');
+const sinon = require('sinon');
+const [ngcsdata.name/]Controller = require('../controllers/[ngcsdata.name.toLower()/]controller');
+const [ngcsdata.name/]Services = require('../services/[ngcsdata.name.toLower()/]services');
+
+describe('[ngcsdata.name/] Controller', function () {
+[generateCreateTests(ngcsmodule, ngcsdata)/]
+[generateUpdateTests(ngcsmodule, ngcsdata)/]
+[generateDeleteTests(ngcsmodule, ngcsdata)/]
+[generateGettersTests(ngcsmodule, ngcsdata)/]
+[generateGetterTests(ngcsmodule, ngcsdata)/]
+[generateFindFunctionTests(ngcsmodule, ngcsdata)/]
+[generateAddAndRemoveTests(ngcsmodule, ngcsdata)/]
+[generateCryptedTests(ngcsmodule, ngcsdata)/]
+});
+[/file]
+[/template]
+
+[template private generateCreateTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#create[ngcsdata.name/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'create[ngcsdata.name/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.create[ngcsdata.name/].restore();
+		});
+
+		[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+		it('should call next(err) if [property.name/] is not specified', function (done) {
+			const req = {
+				body: {
+					[for (otherProp : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default and x.name.strcmp(property.name) <> 0))]
+					[otherProp.name/]: 'default[otherProp.name.toUpperFirst()/]', 
+					[/for]
+				}
+			};
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.create[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		[/for]
+
+		it('should return an object if [ngcsdata.name/] creation succeed', function (done) {
+			const req = {
+				body: {
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+					[property.name/]: 'default[property.name.toUpperFirst()/]', 
+					[/for]
+				}
+			};
+
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+
+			[ngcsdata.name/]Services.create[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				resolve({ 
+					[ngcsdata.name.toLower()/]Id: '[ngcsdata.name.toLower()/]IdValue',
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+					[property.name/]: req.body.[property.name/], 
+					[/for]
+				});
+			}));
+
+			[ngcsdata.name/]Controller.create[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 201);
+					expect(res.jsonObject).to.have.property('message', '[ngcsdata.name/] created');
+					expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLower()/]Id', '[ngcsdata.name.toLower()/]IdValue');
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+					expect(res.jsonObject.data).to.have.property('[property.name/]', req.body.[property.name/]); 
+					[/for]
+					done();				
+				})
+				.catch(err => {
+					console.log(err);
+				});		
+		});
+		
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				body: {
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+					[property.name/]: 'default[property.name.toUpperFirst()/]', 
+					[/for]
+				}
+			};
+
+			[ngcsdata.name/]Services.create[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+			
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.create[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				body: {
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+					[property.name/]: 'default[property.name.toUpperFirst()/]', 
+					[/for]
+				}
+			};
+
+			[ngcsdata.name/]Services.create[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Undefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.create[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/template]
+
+[template private generateUpdateTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[if (ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted)->size() > 0)]
+	describe('#update[ngcsdata.name/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'update[ngcsdata.name/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.update[ngcsdata.name/].restore();
+		});
+
+		it('should call next(err) if no [ngcsdata.name.toLowerFirst()/]Id specified', function (done) {
+			const req = {
+				body: {
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+					[property.name/]: '[property.name/]1', 
+					[/for]
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should return an object if update succeed', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]IdValue',
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+					[property.name/]: '[property.name/]1', 
+					[/for]
+				}
+			}
+
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+
+			[ngcsdata.name/]Services.update[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				resolve({ 
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]IdValue',
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+					[property.name/]: '[property.name/]1', 
+					[/for]
+				});
+			}));
+
+			[ngcsdata.name/]Controller.update[ngcsdata.name/](req, res, () => {})
+				.then(() => {
+					expect(res).to.have.property('statusCode', 201);
+					expect(res.jsonObject).to.have.property('message', '[ngcsdata.name/] updated');
+					expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', '[ngcsdata.name.toLowerFirst()/]IdValue');
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+					expect(res.jsonObject.data).to.have.property('[property.name/]', req.body.[property.name/]); 
+					[/for]
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]IdValue',
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+					[property.name/]: '[property.name/]1', 
+					[/for]
+				}
+			};
+
+			[ngcsdata.name/]Services.update[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]IdValue',
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+					[property.name/]: '[property.name/]1', 
+					[/for]
+				}
+			};
+
+			[ngcsdata.name/]Services.update[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Undefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+
+[/if]
+[/template]
+
+[template private generateDeleteTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#delete[ngcsdata.name/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'delete[ngcsdata.name/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.delete[ngcsdata.name/].restore();
+		});
+
+		it('should call next(err) if [ngcsdata.name.toLowerFirst()/] is not specified', function (done) {
+			const req = {
+				body: {
+				}
+			};
+
+			let nextCalled = false;
+		   	[ngcsdata.name/]Controller.delete[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+	   it('should return a [ngcsdata.name.toLowerFirst()/]Id if [ngcsdata.name/] deletion succeed', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id'
+				}
+			}
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+
+			[ngcsdata.name/]Services.delete[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				resolve({ [ngcsdata.name.toLowerFirst()/]Id: req.body.[ngcsdata.name.toLowerFirst()/]Id });
+			}));
+
+			[ngcsdata.name/]Controller.delete[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('message', '[ngcsdata.name/] deleted');
+					expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', req.body.[ngcsdata.name.toLowerFirst()/]Id)
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					done();				
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id'
+				}
+			}
+
+			[ngcsdata.name/]Services.delete[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Undefined Error');
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.delete[ngcsdata.name/](req, {}, (err) => { 
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+	   	it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id'
+				}
+			}
+
+			[ngcsdata.name/]Services.delete[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Undefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.delete[ngcsdata.name/](req, {}, (err) => { 
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/template]
+
+[template private generateGettersTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#get[ngcsdata.name/]s function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'get[ngcsdata.name/]s');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.get[ngcsdata.name/]s.restore();
+		});
+
+		it('should call next(err) if no page specified', function (done) {
+			const req = {
+				query: {
+					perPage: '20',
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+					[key.name.toLowerFirst()/]Id: 'default[key.name.toLowerFirst()/]Id',
+[/for]
+				}
+			}
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+		it('should call next(err) if no perPage specified', function (done) {
+			const req = {
+				query: {
+					page: '1',
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+					[key.name.toLowerFirst()/]Id: 'default[key.name.toLowerFirst()/]Id',
+[/for]
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+		it('should call next(err) if no [key.name.toLowerFirst()/]Id specified', function (done) {
+			const req = {
+				query: {
+					perPage: '20',
+					page: '1',
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+[/for]
+
+		it('should return an array if request succeed', function (done) {
+			const req = {
+				query: {
+					page: '1',
+					perPage: '10',
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+					[key.name.toLowerFirst()/]Id: 'default[key.name.toLowerFirst()/]Id',
+[/for]
+				}
+			}
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+			[ngcsdata.name/]Services.get[ngcsdata.name/]s.returns(new Promise((resolve, reject) => {
+				resolve(['['/]
+					{ [ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]1' },
+					{ [ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]2' },
+					{ [ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]3' },
+				[']'/]);
+			}));
+
+			[ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.lengthOf(3);
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				query: {
+					page: '1',
+					perPage: '10',
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+					[key.name.toLowerFirst()/]Id: 'default[key.name.toLowerFirst()/]Id',
+[/for]
+				}
+			}
+			[ngcsdata.name/]Services.get[ngcsdata.name/]s.returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				query: {
+					page: '1',
+					perPage: '10',
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+					[key.name.toLowerFirst()/]Id: 'default[key.name.toLowerFirst()/]Id',
+[/for]
+				}
+			}
+			[ngcsdata.name/]Services.get[ngcsdata.name/]s.returns(new Promise((resolve, reject) => {
+				const error = new Error('Udefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+				});
+		});		
+	});
+[/template]
+
+[template private generateGetterTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#get[ngcsdata.name/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'get[ngcsdata.name/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.get[ngcsdata.name/].restore();
+		});
+
+		it('should call next(err) if no [ngcsdata.name.toLowerFirst()/]Id specified', function (done) {
+			const req = {
+				query: {
+				}
+			}
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should return an object if request succeed', function (done) {
+			const req = {
+				query: {
+					[ngcsdata.name.toLowerFirst()/]Id: 'abc',
+				}
+			}
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+			[ngcsdata.name/]Services.get[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				resolve({ [ngcsdata.name.toLowerFirst()/]Id: 'abc' });
+			}));
+
+			[ngcsdata.name/]Controller.get[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', 'abc');
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				query: {
+					[ngcsdata.name.toLowerFirst()/]Id: 'abc',
+				}
+			}
+			[ngcsdata.name/]Services.get[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				query: {
+					[ngcsdata.name.toLowerFirst()/]Id: 'abc',
+				}
+			}
+			[ngcsdata.name/]Services.get[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Udefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.get[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/template]
+
+[template private generateFindFunctionTests(ngcsmodule : NgcsModule, ngcsdata : NgcsData)]
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.unique))]
+	describe('#find[ngcsdata.name/]By[property.name.toUpperFirst()/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'find[ngcsdata.name/]By[property.name.toUpperFirst()/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.find[ngcsdata.name/]By[property.name.toUpperFirst()/].restore();
+		});
+
+		it('should call next(err) if [property.name/] is not specified', function (done) {
+			const req = {
+				query: {
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.find[ngcsdata.name/]By[property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		
+		});
+
+		it('should return an object if request succeed', function (done) {
+			const req = {
+				query: {
+					[property.name/]: '[property.name/]1',
+				}
+			}
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+			[ngcsdata.name/]Services.find[ngcsdata.name/]By[property.name.toUpperFirst()/].returns(new Promise((resolve, reject) => {
+				resolve({ 
+					[ngcsdata.name.toLowerFirst()/]Id: 'abc',
+					[property.name/]: '[property.name/]1', 
+				});
+			}));
+
+			[ngcsdata.name/]Controller.find[ngcsdata.name/]By[property.name.toUpperFirst()/](req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', 'abc');
+					expect(res.jsonObject).to.have.property('[property.name/]', '[property.name/]1');
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				query: {
+					[property.name/]: '[property.name/]1',
+				}
+			}
+			[ngcsdata.name/]Services.find[ngcsdata.name/]By[property.name.toUpperFirst()/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.find[ngcsdata.name/]By[property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				query: {
+					[property.name/]: '[property.name/]1',
+				}
+			}
+			[ngcsdata.name/]Services.find[ngcsdata.name/]By[property.name.toUpperFirst()/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Udefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.find[ngcsdata.name/]By[property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/for]
+[/template]
+
+[template private generateAddAndRemoveTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[for (aggregation : NgcsAggregation | ngcsdata.ngcsproperty->filter(NgcsAggregation))]
+[generateAddTests(ngcsmodule, ngcsdata, aggregation)/]
+[generateRemoveTests(ngcsmodule, ngcsdata, aggregation)/]
+[/for]
+[/template]
+
+[template private generateAddTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst(); }]
+	describe('#add[field.toUpperFirst()/]To[ngcsdata.name/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'add[field.toUpperFirst()/]To[ngcsdata.name/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.add[field.toUpperFirst()/]To[ngcsdata.name/].restore();
+		});
+
+		it('should call next(err) if [ngcsdata.name/]Id is not specified', function (done) {
+			const req = {
+				body: {
+					[field/]Id: '[field/]Id', 
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.add[field.toUpperFirst()/]To[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		
+		});
+
+		it('should call next(err) if [field/]Id is not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.add[field.toUpperFirst()/]To[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		
+		});
+
+		it('should return an object if request succeed', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+					[field/]Id: '[field/]Id1', 
+				}
+			}
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+			[ngcsdata.name/]Services.add[field.toUpperFirst()/]To[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				resolve({ 
+					[ngcsdata.name.toLowerFirst()/]Id: 'abc',
+					[aggregation.name/]: ['['/]'[field/]Id1'[']'/], 
+				});
+			}));
+
+			[ngcsdata.name/]Controller.add[field.toUpperFirst()/]To[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('message', '[field/] added');
+					expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', 'abc');
+					expect(res.jsonObject.data.[aggregation.name/]).to.have.length(1);
+					expect(res.jsonObject.data.[aggregation.name/]['['/]0[']'/]).to.be.equal('[field/]Id1');
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+					[field/]Id: '[field/]Id1', 
+				}
+			}
+			[ngcsdata.name/]Services.add[field.toUpperFirst()/]To[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.add[field.toUpperFirst()/]To[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+					[field/]Id: '[field/]Id1', 
+				}
+			}
+			[ngcsdata.name/]Services.add[field.toUpperFirst()/]To[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Udefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.add[field.toUpperFirst()/]To[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/template]
+
+[template private generateRemoveTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst(); }]
+	describe('#remove[field.toUpperFirst()/]From[ngcsdata.name/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'remove[field.toUpperFirst()/]From[ngcsdata.name/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.remove[field.toUpperFirst()/]From[ngcsdata.name/].restore();
+		});
+
+		it('should call next(err) if [ngcsdata.name/]Id is not specified', function (done) {
+			const req = {
+				body: {
+					[field/]Id: '[field/]Id', 
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.remove[field.toUpperFirst()/]From[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		
+		});
+
+		it('should call next(err) if [field/]Id is not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.remove[field.toUpperFirst()/]From[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		
+		});
+
+		it('should return an object if request succeed', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+					[field/]Id: '[field/]Id1', 
+				}
+			}
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+			[ngcsdata.name/]Services.remove[field.toUpperFirst()/]From[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				resolve({ 
+					[ngcsdata.name.toLowerFirst()/]Id: 'abc',
+					[aggregation.name/]: ['[]'/], 
+				});
+			}));
+
+			[ngcsdata.name/]Controller.remove[field.toUpperFirst()/]From[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+					expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('message', '[field/] removed');
+					expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', 'abc');
+					expect(res.jsonObject.data.[aggregation.name/]).to.have.length(0);
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+					[field/]Id: '[field/]Id1', 
+				}
+			}
+			[ngcsdata.name/]Services.remove[field.toUpperFirst()/]From[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.remove[field.toUpperFirst()/]From[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLowerFirst()/]Id: '[ngcsdata.name.toLowerFirst()/]Id', 
+					[field/]Id: '[field/]Id1', 
+				}
+			}
+			[ngcsdata.name/]Services.remove[field.toUpperFirst()/]From[ngcsdata.name/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Udefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.remove[field.toUpperFirst()/]From[ngcsdata.name/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(response => {
+					expect(response).to.be.null;
+					expect(nextCalled).to.be.true;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/template]
+
+[template private generateCryptedTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and x.crypted))]
+	describe('#update[ngcsdata.name/][property.name.toUpperFirst()/] function', function () {
+		beforeEach(function () {
+			sinon.stub([ngcsdata.name/]Services, 'update[ngcsdata.name/][property.name.toUpperFirst()/]');
+		});
+
+		afterEach(function () {
+			[ngcsdata.name/]Services.update[ngcsdata.name/][property.name.toUpperFirst()/].restore();
+		});
+
+		it('should call next(err) if no [ngcsdata.name.toLower()/]Id specified', function (done) {
+			const req = {
+				body: {
+					new[property.name.toUpperFirst()/]: '[property.name/]1', 
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/][property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) if no [property.name/] specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLower()/]Id: '[ngcsdata.name.toLower()/]IdValue',
+				}
+			}
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/][property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should return an object if update succeed', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLower()/]Id: '[ngcsdata.name.toLower()/]IdValue',
+					new[property.name.toUpperFirst()/]: '[property.name/]1', 
+				}
+			}
+
+			const res = {
+				statusCode: 0,
+				jsonObject: {},
+				status: function (code) {
+					this.statusCode = code;
+					return this;
+				},
+				json: function (value) {
+					this.jsonObject = value;
+					return this;
+				}
+			};
+
+			[ngcsdata.name/]Services.update[ngcsdata.name/][property.name.toUpperFirst()/].returns(new Promise((resolve, reject) => {
+				resolve({ 
+					[ngcsdata.name.toLower()/]Id: '[ngcsdata.name.toLower()/]IdValue',
+				});
+			}));
+
+			[ngcsdata.name/]Controller.update[ngcsdata.name/][property.name.toUpperFirst()/](req, res, () => {})
+				.then(() => {
+					expect(res).to.have.property('statusCode', 201);
+					expect(res.jsonObject).to.have.property('message', '[property.name.toUpperFirst()/] updated');
+					expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLower()/]Id', '[ngcsdata.name.toLower()/]IdValue');
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) adding default statusCode if not specified', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLower()/]Id: '[ngcsdata.name.toLower()/]IdValue',
+					new[property.name.toUpperFirst()/]: '[property.name/]1', 
+				}
+			};
+
+			[ngcsdata.name/]Services.update[ngcsdata.name/][property.name.toUpperFirst()/].returns(new Promise((resolve, reject) => {
+				throw new Error('Undefined Error');
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/][property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 500);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+
+		it('should call next(err) keeping specified statusCode', function (done) {
+			const req = {
+				body: {
+					[ngcsdata.name.toLower()/]Id: '[ngcsdata.name.toLower()/]IdValue',
+					new[property.name.toUpperFirst()/]: '[property.name/]1', 
+				}
+			};
+
+			[ngcsdata.name/]Services.update[ngcsdata.name/][property.name.toUpperFirst()/].returns(new Promise((resolve, reject) => {
+				const error = new Error('Undefined Error');
+				error.statusCode = 400;
+				throw error;
+			}));
+
+			let nextCalled = false;
+			[ngcsdata.name/]Controller.update[ngcsdata.name/][property.name.toUpperFirst()/](req, {}, (err) => {
+				expect(err).not.to.be.null;
+				expect(err).to.have.property('statusCode', 400);
+				nextCalled = true;
+			})
+				.then(result => {
+					expect(nextCalled).to.be.true;
+					expect(result).to.be.null;
+					done();
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail('Error thrown');
+					done();
+				});
+		});
+	});
+[/for]
+[/template]
+
+

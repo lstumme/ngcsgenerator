@@ -1,0 +1,89 @@
+[comment encoding = UTF-8 /]
+[module ngcsutils('http://home.ludo.com/ngcsmodel')]
+[query public createElementName(ngcsdata: NgcsData, aggregation: NgcsAggregation) : String
+	= invoke(
+		'com.home.ludo.ngcsgenerator.services.NgcsServices', 
+		'getFieldName(com.home.ludo.ngcs.ngcsmodel.NgcsData, com.home.ludo.ngcs.ngcsmodel.NgcsAggregation)',
+		Sequence{ngcsdata, aggregation}
+
+	)
+/] 
+
+[query public getDependencies(ngcsdata: NgcsData) : OrderedSet(NgcsData) 
+	= invoke(
+		'com.home.ludo.ngcsgenerator.services.NgcsServices', 
+		'getDependencies(com.home.ludo.ngcs.ngcsmodel.NgcsData)',
+		Sequence{ngcsdata}
+	)/] 
+
+[template public getNgcsImport(ngcsmodule: NgcsModule, ngcsdata: NgcsData) post (trim()) ]
+[for (data: NgcsData | ngcsdata.getDependencies())]
+[if (data.eContainer(NgcsModule).name.strcmp(ngcsmodule.name) = 0)]
+const [data.name/] = require('../model/[data.name.toLower()/]');
+[/if]
+[if (data.eContainer(NgcsModule).name.strcmp(ngcsmodule.name) <> 0)]
+const { [data.name/] } = require('[data.eContainer(NgcsModule).name/]');
+[/if]
+[/for]
+[/template]
+
+[template public getLocalRequires(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference))]
+	[if (property.refTo.eContainer(NgcsModule).name.strcmp(ngcsmodule.name) = 0)]
+const [property.refTo.name/] = require('../model/[property.refTo.name.toLower()/]');
+	[/if]
+[/for]
+[/template]
+
+[template public initVariables(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+		let default[ngcsdata.name/];
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x | x.required))]
+[initVariables(ngcsmodule, property.refTo)/][/for]
+[/template]
+
+[template public createInstance(ngcsmodule : NgcsModule, ngcsdata: NgcsData, createObject: Boolean, prefix: String)]
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x | x.required))]
+[createInstance(ngcsmodule, property.refTo, true, prefix)/]
+
+[/for]
+[if (createObject)]
+[prefix/][ngcsdata.name/] = [ngcsdata.name/]({
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x | x.required and not x.default))]
+	[property.name/]: '[prefix/][property.name.toUpperFirst()/]',
+[/for]
+[for (property: NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x | x.required))]
+	[property.name/]: [prefix/][property.refTo.name/]._id.toString(),
+[/for]
+});
+[prefix/][ngcsdata.name/] = await [prefix/][ngcsdata.name/].save();
+[/if]
+[/template]
+
+
+[template public getExternalRequires(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[_getExternalRequires(ngcsmodule, ngcsdata, OrderedSet{})/]
+[/template]
+
+[template private _getExternalRequires(ngcsmodule : NgcsModule, ngcsdata: NgcsData, currentList: OrderedSet(String))]
+[if not currentList->exists(x|x = ngcsdata.name)]
+[currentList->append(ngcsdata.name)/]
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x | x.required))]
+	[if (property.refTo.eContainer(NgcsModule).name.strcmp(ngcsmodule.name) <> 0)]
+const { [property.refTo.name/]Services } = require('[property.refTo.eContainer(NgcsModule).name/]');
+	[/if]
+[/for]
+[/if]
+[/template]
+
+[template private getDependencies(ngcsmodule: NgcsModule, ngcsdata: NgcsData)]
+	
+[/template]
+
+[template public createData(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference))]
+[createData(ngcsmodule, property.refTo)/]
+[/for]
+Initializing data : [ngcsdata.name/]
+[/template]
+
+

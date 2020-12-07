@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" name="ngcsdesigner" version="12.0.0.2017041100">
+  <ownedViewpoints name="NgcsViewpoint" modelFileExtension="ngcsmodel">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="NGCS Diagram" domainClass="ngcsmodel::NgcsProject" enablePopupBars="true">
+      <defaultLayer name="Default">
+        <nodeMappings name="Property" domainClass="ngcsmodel::NgcsProperty"/>
+        <edgeMappings name="reference_edge" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_module']" sourceMapping="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']" targetMapping="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']" targetFinderExpression="aql:self.refTo" sourceFinderExpression="aql:self.eContainer()" domainClass="NgcsReference" useDomainElement="true">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <centerLabelStyleDescription labelExpression="aql:self.name">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="aggregation_edge" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_aggregation_edge']" sourceMapping="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']" targetMapping="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']" targetFinderExpression="aql:self.refTo" sourceFinderExpression="aql:self.eContainer()" domainClass="ngcsmodel::NgcsAggregation" useDomainElement="true">
+          <style sourceArrow="FillDiamond" targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription labelExpression="aql:self.name + '[]'">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="Module" deletionDescription="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='delete_module']" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_module']" domainClass="ngcsmodel::NgcsModule">
+          <subContainerMappings name="Data Model" deletionDescription="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='delete_model']" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_module']" semanticCandidatesExpression="feature:edata" domainClass="ngcsmodel::NgcsData" childrenPresentation="List">
+            <subNodeMappings name="Attribute" deletionDescription="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='delete_attribute']" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_parts']" semanticCandidatesExpression="feature:ngcsproperty" domainClass="ngcsmodel::NgcsAttribute">
+              <style xsi:type="style:BundledImageDescription" labelSize="10" labelExpression="aql:self.name + ' : ' + self.type" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </style>
+            </subNodeMappings>
+            <subNodeMappings name="Reference" deletionDescription="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='delete_reference']" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_parts']" semanticCandidatesExpression="feature:ngcsproperty" domainClass="ngcsmodel::NgcsReference">
+              <style xsi:type="style:BundledImageDescription" labelSize="10" labelExpression="aql:self.name + ' : ' + self.refTo.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelFormat>bold</labelFormat>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </style>
+            </subNodeMappings>
+            <subNodeMappings name="Aggregation" deletionDescription="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='delete_aggregation']" labelDirectEdit="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='edit_parts']" semanticCandidatesExpression="feature:ngcsproperty" domainClass="ngcsmodel::NgcsAggregation">
+              <style xsi:type="style:BundledImageDescription" labelSize="10" labelExpression="aql:self.name + ' :  [' + self.refTo.name + ']'" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelFormat>bold</labelFormat>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </style>
+            </subNodeMappings>
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+              <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+            </style>
+          </subContainerMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>underline</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="Elements">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="create_module" label="Module" containerMappings="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="NgcsModule" referenceName="ngcsmodule">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="ngcsmodule"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="create_model" label="Data Model" containerMappings="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="ngcsmodel::NgcsData" referenceName="edata">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="data"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="create_attribute" label="Attribute" nodeMappings="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@containerMappings[name='Module']/@subContainerMappings[name='Data%20Model']/@subNodeMappings[name='Attribute']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="NgcsAttribute" referenceName="ngcsproperty">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="attribute"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="reference_creation" label="Reference" edgeMappings="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@edgeMappings[name='reference_edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="NgcsReference" referenceName="ngcsproperty">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="refTo" valueExpression="var:target"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:self.refTo.name.toLowerFirst()"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="create_aggregation" label="Aggregation" edgeMappings="//@ownedViewpoints[name='NgcsViewpoint']/@ownedRepresentations[name='NGCS%20Diagram']/@defaultLayer/@edgeMappings[name='aggregation_edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="NgcsAggregation" referenceName="ngcsproperty">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="refTo" valueExpression="var:target"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:self.refTo.name.toLowerFirst()"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="delete_aggregation">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:Unset" featureName="refTo"/>
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer()">
+                  <subModelOperations xsi:type="tool_1:Unset" featureName="ngcsproperty" elementExpression="var:element"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:RemoveElement"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="delete_reference">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:Unset" featureName="refTo"/>
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer()">
+                  <subModelOperations xsi:type="tool_1:Unset" featureName="ngcsproperty" elementExpression="var:element"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:RemoveElement"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="delete_attribute">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.econtainer()">
+                  <subModelOperations xsi:type="tool_1:Unset" featureName="ngcsproperty" elementExpression="var:element"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:RemoveElement"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="delete_model">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer()">
+                  <subModelOperations xsi:type="tool_1:Unset" featureName="edata" elementExpression="var:element"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:RemoveElement"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="delete_module">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer()">
+                  <subModelOperations xsi:type="tool_1:Unset" featureName="ngcsmodule" elementExpression="var:element"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:RemoveElement"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DirectEditLabel" name="edit_module">
+            <mask mask="{0}"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="var:0"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DirectEditLabel" name="edit_parts">
+            <mask mask="{0} : {1}"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="var:0"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DirectEditLabel" name="edit_aggregation_edge">
+            <mask mask="{0}[]"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="var:0"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="ngcsdesigner.Services"/>
+  </ownedViewpoints>
+</description:Group>

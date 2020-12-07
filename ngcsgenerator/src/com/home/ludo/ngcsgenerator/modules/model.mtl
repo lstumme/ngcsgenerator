@@ -1,0 +1,25 @@
+[comment encoding = UTF-8 /]
+[module model('http://home.ludo.com/ngcsmodel')]
+
+
+[template public generateModel(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+
+[file(ngcsmodule.name.toLower() + '/model/' + ngcsdata.name.toLower() + '.js', false,'UTF-8')]
+const mongoose = require('mongoose');
+
+const [ngcsdata.name/]Schema = new mongoose.Schema({
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute))]
+	[property.name/]: { type: [property.type/][if property.required], required: true[/if][if property.unique], unique: true [/if][if property.default], default: Date.now [/if]},
+[/for]
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference))]
+	[property.name/]: { type: mongoose.ObjectId, ref: '[property.refTo.name.toUpperFirst()/]' [if property.required], required: true [/if]},
+[/for]
+[for (property : NgcsAggregation| ngcsdata.ngcsproperty->filter(NgcsAggregation))]
+	[property.name/]: ['['/]{ type: mongoose.ObjectId, ref: '[property.refTo.name.toUpperFirst()/]' }[']'/],
+[/for]
+});
+
+module.exports = mongoose.model('[ngcsdata.name/]', [ngcsdata.name/]Schema);
+
+[/file]
+[/template]

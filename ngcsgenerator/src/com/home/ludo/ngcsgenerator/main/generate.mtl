@@ -1,0 +1,27 @@
+[comment encoding = UTF-8 /]
+[module generate('http://home.ludo.com/ngcsmodel')]
+
+[import com::home::ludo::ngcsgenerator::modules::model /]
+[import com::home::ludo::ngcsgenerator::modules::controller/]
+[import com::home::ludo::ngcsgenerator::modules::services/]
+[import com::home::ludo::ngcsgenerator::modules::test-controller/]
+[import com::home::ludo::ngcsgenerator::modules::test-services /]
+[import com::home::ludo::ngcsgenerator::modules::test-integration /]
+[import com::home::ludo::ngcsgenerator::modules::index /]
+
+[template public generateElement(aNgcsProject : NgcsProject)]
+[comment @main/]
+
+[for (ngcsmodule : NgcsModule| aNgcsProject.ngcsmodule)]
+	[generateIndex(ngcsmodule) /]
+	[for (ngcsdata: NgcsData | ngcsmodule.edata)]
+		[generateModel(ngcsmodule, ngcsdata) /]
+		[generateController(ngcsmodule, ngcsdata) /]
+		[generateServices(ngcsmodule, ngcsdata) /]
+		[generateControllerTests(ngcsmodule, ngcsdata)/]
+		[generateServicesTest(ngcsmodule, ngcsdata) /]
+		[generateIntegrationTest(ngcsmodule, ngcsdata) /]
+	[/for]
+[/for]
+
+[/template]

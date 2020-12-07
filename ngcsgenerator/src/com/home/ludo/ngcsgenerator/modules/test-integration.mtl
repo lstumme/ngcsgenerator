@@ -1,0 +1,410 @@
+[comment encoding = UTF-8 /]
+[module test-integration('http://home.ludo.com/ngcsmodel')]
+[import com::home::ludo::ngcsgenerator::utils::ngcsutils/]
+
+[template public generateIntegrationTest(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[file(ngcsmodule.name + '/test/' + ngcsdata.name.toLower() + '-integration.js', false,'UTF-8')]
+const { expect, assert } = require('chai');
+const { dbHandler } = require('ngcstesthelpers');
+[getNgcsImport(ngcsmodule, ngcsdata)/]
+const [ngcsdata.name/]Controller = require('../controllers/[ngcsdata.name.toLower()/]controller');
+const [ngcsdata.name/] = require('../model/[ngcsdata.name.toLower()/]');
+
+describe('[ngcsdata.name/] Integration', function () {
+[generateCreateTests(ngcsmodule, ngcsdata)/]
+[generateUpdateTests(ngcsmodule, ngcsdata)/]
+[generateDeleteTests(ngcsmodule, ngcsdata)/]
+[generateGettersTests(ngcsmodule, ngcsdata)/]
+[generateGetterTests(ngcsmodule, ngcsdata)/]
+[generateFindFunctionTests(ngcsmodule, ngcsdata)/]
+[generateAddAndRemoveTests(ngcsmodule, ngcsdata)/]
+[generateCryptedTests(ngcsmodule, ngcsdata)/]
+});
+[/file]
+[/template]
+
+[template private generateCreateTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData ) post (trim())]
+	describe('#create[ngcsdata.name/] function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+[databaseInitialization(ngcsdata)/]
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, false, 'default')/]
+		});
+		
+		it('should return an object if [ngcsdata.name/] creation succeed', function (done) {
+			const req = {
+				body: {
+					[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.required and not x.default))]
+					[property.name/]: 'default[property.name.toUpperFirst()/]', 
+					[/for]
+					[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.required))]
+					[property.name/]: default[property.name.toUpperFirst()/]._id.toString(), 
+					[/for]
+				}
+			};
+
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+			[ngcsdata.name/]Controller.create[ngcsdata.name/](req, res, () => { })
+				.then(() => {
+	                expect(res).to.have.property('statusCode', 201);
+	                expect(res.jsonObject).to.have.property('message', '[ngcsdata.name/] created');
+	                expect(res.jsonObject.data).to.have.ownProperty('[ngcsdata.name.toLowerFirst()/]Id');
+					[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default and not x.crypted))]
+					expect(res.jsonObject.data).to.have.property('[property.name/]', req.body.[property.name/]); 
+					[/for]
+					done();				
+				})
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});		
+		});
+	});
+[/template]
+
+[template private generateUpdateTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[if (ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted)->size() > 0)]
+	describe('#update[ngcsdata.name/] function', function () {
+	});
+[/if]
+[/template]
+
+[template private generateDeleteTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#delete[ngcsdata.name/] function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+[databaseInitialization(ngcsdata)/]
+		
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, true, 'default')/]
+		});
+
+       it('should return a [ngcsdata.name.toLowerFirst()/]Id if [ngcsdata.name/] deletion succeed', function (done) {
+            const req = {
+                body: {
+                    [ngcsdata.name.toLowerFirst()/]Id: default[ngcsdata.name/]._id.toString(),
+                }
+            }
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+            [ngcsdata.name/]Controller.delete[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+	                expect(res).to.have.property('statusCode', 200);
+	                expect(res.jsonObject).to.have.property('message', '[ngcsdata.name/] deleted');
+	                expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', req.body.[ngcsdata.name.toLowerFirst()/]Id)
+	                done();
+            	})
+				.catch(err => {
+					console.log(err);
+					done();				
+				});
+        });
+
+
+	});
+
+[/template]
+
+[template private generateGettersTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#get[ngcsdata.name/]s function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+[databaseInitialization(ngcsdata)/]
+		
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, false, 'default')/]
+			for (let i = 0; i < 20; i++) {
+				const [ngcsdata.name.toLowerFirst()/] = new [ngcsdata.name/]({
+				[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x | x.required and not x.default))]
+					[property.name/]: '[property.name.toUpperFirst()/]_' + i,
+				[/for]
+				[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x | x.required and not x.default))]
+					[property.name/]: default[property.refTo.name.toUpperFirst()/]._id.toString(),
+				[/for]
+				});
+				await [ngcsdata.name.toLowerFirst()/].save();
+			}			
+		});
+
+        it('should return an array if request succeed', function (done) {
+            const req = {
+                query: {
+[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+					[key.name.toLowerFirst()/]Id: default[key.name.toUpperFirst()/]._id.toString(),
+[/for]                    
+					page: '1',
+                    perPage: '10'
+                }
+            }
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+            [ngcsdata.name/]Controller.get[ngcsdata.name/]s(req, res, () => { })
+				.then(result => {
+	                expect(res).to.have.property('statusCode', 200);
+	                expect(res.jsonObject.[ngcsdata.name.toLowerFirst()/]s).to.have.lengthOf(10);
+	                done();
+	            })
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+        });
+	});
+
+[/template]
+
+[template private generateGetterTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+	describe('#get[ngcsdata.name/] function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+[databaseInitialization(ngcsdata)/]
+		
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, true, 'default')/]
+		});
+
+        it('should return an object if request succeed', function (done) {
+            const req = {
+                query: {
+                    [ngcsdata.name.toLowerFirst()/]Id: default[ngcsdata.name/]._id.toString(),
+                }
+            }
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+            [ngcsdata.name/]Controller.get[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+	                expect(res).to.have.property('statusCode', 200);
+	                expect(res.jsonObject).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', default[ngcsdata.name/]._id.toString());
+	                done();
+	            })
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+        });
+
+	});
+
+[/template]
+
+[template private generateFindFunctionTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.unique))]
+	describe('#find[ngcsdata.name/]By[property.name.toUpperFirst()/] function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+[databaseInitialization(ngcsdata)/]
+		
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, true, 'default')/]
+		});
+
+        it('should return an object if request succeed', function (done) {
+            const req = {
+                query: {
+					[property.name/]: 'default[property.name.toUpperFirst()/]',
+                }
+            }
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+            [ngcsdata.name/]Controller.find[ngcsdata.name/]By[property.name.toUpperFirst()/](req, res, () => { })
+				.then(result => {
+	                expect(res).to.have.property('statusCode', 200);
+	                expect(res.jsonObject).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', default[ngcsdata.name/]._id.toString());
+					expect(res.jsonObject).to.have.property('[property.name/]', 'default[property.name.toUpperFirst()/]');
+	                done();
+	            })
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+        });
+	});
+
+[/for]
+[/template]
+
+[template private generateAddAndRemoveTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[for (aggregation : NgcsAggregation | ngcsdata.ngcsproperty->filter(NgcsAggregation))]
+[generateAddTests(ngcsmodule, ngcsdata, aggregation)/]
+[generateRemoveTests(ngcsmodule, ngcsdata, aggregation)/]
+[/for]
+[/template]
+
+[template private generateAddTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst(); }]
+	describe('#add[field.toUpperFirst()/]To[ngcsdata.name/] function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+		let inner[aggregation.refTo.name/];
+[databaseInitialization(ngcsdata)/]
+		
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, true, 'default')/]
+			[createInstance(ngcsmodule, aggregation.refTo, true, 'inner')/]
+		});
+
+        it('should return an object if request succeed', function (done) {
+            const req = {
+                body: {
+					[ngcsdata.name.toLowerFirst()/]Id: default[ngcsdata.name/]._id.toString(),
+					[field/]Id: inner[aggregation.refTo.name/]._id.toString(), 
+                }
+            }
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+            [ngcsdata.name/]Controller.add[field.toUpperFirst()/]To[ngcsdata.name/](req, res, () => { })
+				.then(() => {
+	                expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('message', '[field/] added');
+	                expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', default[ngcsdata.name/]._id.toString());
+	                expect(res.jsonObject.data).to.have.ownProperty('[aggregation.name/]');
+					expect(res.jsonObject.data.[aggregation.name/].length).to.be.equal(1);
+					expect(res.jsonObject.data.[aggregation.name/].includes(inner[aggregation.refTo.name/]._id.toString())).to.be.true;							
+	                done();
+	            })
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+        });
+	});
+[/template]
+
+[template private generateRemoveTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst(); }]
+	describe('#remove[field.toUpperFirst()/]From[ngcsdata.name/] function', function () {
+[initVariables(ngcsmodule, ngcsdata)/]
+		let inner[aggregation.refTo.name/];
+[databaseInitialization(ngcsdata)/]
+		
+		beforeEach(async () => {
+			[createInstance(ngcsmodule, ngcsdata, true, 'default')/]			
+			[createInstance(ngcsmodule, aggregation.refTo, true, 'inner')/]
+			
+			default[ngcsdata.name/].[aggregation.name/].push(inner[aggregation.refTo.name/]._id);
+			default[ngcsdata.name/] = await default[ngcsdata.name/].save();
+		});
+
+        it('should return an object if request succeed', function (done) {
+            const req = {
+                body: {
+					[ngcsdata.name.toLowerFirst()/]Id: default[ngcsdata.name/]._id.toString(),
+					[field/]Id: inner[aggregation.refTo.name/]._id.toString(), 
+                }
+            }
+            const res = {
+                statusCode: 0,
+                jsonObject: {},
+                status: function (code) {
+                    this.statusCode = code;
+                    return this;
+                },
+                json: function (value) {
+                    this.jsonObject = value;
+                    return this;
+                }
+            };
+
+            [ngcsdata.name/]Controller.remove[field.toUpperFirst()/]From[ngcsdata.name/](req, res, () => { })
+				.then(result => {
+	                expect(res).to.have.property('statusCode', 200);
+					expect(res.jsonObject).to.have.property('message', '[field/] removed');
+	                expect(res.jsonObject.data).to.have.property('[ngcsdata.name.toLowerFirst()/]Id', default[ngcsdata.name/]._id.toString());
+	                expect(res.jsonObject.data).to.have.ownProperty('[aggregation.name/]');
+					expect(res.jsonObject.data.[aggregation.name/].length).to.be.equal(0);
+	                done();
+	            })
+				.catch(err => {
+					console.log(err);
+					assert.fail(err);
+					done();
+				});
+        });
+
+	});
+[/template]
+
+[template private generateCryptedTests(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[/template]
+
+[template private databaseInitialization(ngcsdata: NgcsData )]
+		before(async () => {
+			await dbHandler.connect();
+			await [ngcsdata.name/].createIndexes();
+		});
+
+		after(async () => {
+			await dbHandler.closeDatabase();
+		});
+
+		afterEach(async () => {
+			await dbHandler.clearDatabase();
+		});
+[/template]
+
+
