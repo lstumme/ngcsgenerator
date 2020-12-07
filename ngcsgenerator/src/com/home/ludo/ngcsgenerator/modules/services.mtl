@@ -1,0 +1,296 @@
+[comment encoding = UTF-8 /]
+[module services('http://home.ludo.com/ngcsmodel')]
+[import com::home::ludo::ngcsgenerator::utils::ngcsutils/]
+
+
+[template public generateServices(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+
+
+[file(ngcsmodule.name + '/services/' + ngcsdata.name.toLower() + 'services.js', false,'UTF-8')]
+[if (ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.crypted)->size() > 0)]
+const bcrypt = require('bcryptjs');
+[/if]
+[for (data: NgcsData | ngcsdata.getDependencies())]
+[if (data.eContainer(NgcsModule).name.strcmp(ngcsmodule.name) = 0)]
+const [data.name/] = require('../model/[data.name.toLower()/]');
+[/if]
+[if (data.eContainer(NgcsModule).name.strcmp(ngcsmodule.name) <> 0)]
+const { [data.name/] } = require('[data.eContainer(NgcsModule).name/]');
+[/if]
+[/for]
+const [ngcsdata.name/] = require('../model/[ngcsdata.name.toLower()/]');
+
+[generateConvert2Object(ngcsmodule, ngcsdata)/]
+[generateCreate(ngcsmodule, ngcsdata)/]
+[generateUpdate(ngcsmodule, ngcsdata)/]
+[generateDelete(ngcsmodule, ngcsdata)/]
+[generateGetters(ngcsmodule, ngcsdata)/]
+[generateGetter(ngcsmodule, ngcsdata)/]
+[generateAddAndRemove(ngcsmodule, ngcsdata)/]
+[generateFindFunction(ngcsmodule, ngcsdata)/]
+[generateCrypted(ngcsmodule, ngcsdata)/]
+[/file]
+[/template]
+
+
+
+
+[template private generateConvert2Object(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment convert2Object/]
+const convert[ngcsdata.name/]2Object = [ngcsdata.name.substring(1,1).toLower()/] => {
+	return {
+		[ngcsdata.name.toLowerFirst()/]Id: [ngcsdata.name.substring(1,1).toLower()/]._id.toString(),
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|not x.hidden))]
+		[property.name/]: [ngcsdata.name.substring(1,1).toLower()/].[property.name/],
+[/for]		
+[for (property : NgcsReference | ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|not x.hidden))]
+		[property.name/]: [ngcsdata.name.substring(1,1).toLower()/].[property.name/].toString(),
+[/for]		
+[for (property : NgcsAggregation| ngcsdata.ngcsproperty->filter(NgcsAggregation)->select(x|not x.hidden))]
+		[property.name/]: [ngcsdata.name.substring(1,1).toLower()/].[property.name/].map(el => { return el.toString() }),
+[/for]		
+	};
+};
+
+[/template]
+
+[template private generateCreate(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Create function /]
+exports.create[ngcsdata.name/] = [for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))
+									before('async ({ ')	separator(', ') after(' }) => {')][property.name/][/for]
+
+[for (property : NgcsAttribute| ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.crypted))]
+	const hashed[property.name.toUpperFirst()/] = await bcrypt.hash([property.name/], 12);
+[/for]
+	const [ngcsdata.name.toLowerFirst()/] = new [ngcsdata.name/]({
+[for (property : NgcsAttribute| ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.required and not x.crypted and not x.default))]
+		[property.name/]: [property.name/],
+[/for]		
+[for (property : NgcsAttribute| ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.required and x.crypted))]
+		[property.name/]: hashed[property.name.toUpperFirst()/],
+[/for]		
+[for (property : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.required))]
+		[property.name/]: [property.name/],
+[/for]		
+	});
+	return [ngcsdata.name.toLowerFirst()/].save().then([ngcsdata.name.substring(1,1).toLower()/] => {
+		return convert[ngcsdata.name/]2Object([ngcsdata.name.substring(1,1).toLower()/]);
+	});
+};
+
+[/template]
+
+[template private generateUpdate(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[if (ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted)->size() > 0)]
+[comment Update function /]
+exports.update[ngcsdata.name/] = [for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))
+									before(' async ({ ' + ngcsdata.name.toLowerFirst() + 'Id, ') separator(', ') after('}) => {')][property.name/][/for]
+    
+	return [ngcsdata.name/].findOne({ _id: [ngcsdata.name.toLowerFirst() + 'Id, '/] }).then([ngcsdata.name.toLowerFirst()/] => {
+        if (![ngcsdata.name.toLowerFirst()/]) {
+            const error = new Error('Could not find [ngcsdata.name.toLowerFirst()/].')
+            error.statusCode = 404;
+            throw error;
+        }
+
+		[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+		if ([property.name/]) [ngcsdata.name.toLowerFirst()/].[property.name/] = [property.name/];
+		[/for]
+
+		return [ngcsdata.name.toLowerFirst()/].save().then([ngcsdata.name.substring(1,1).toLower()/] => {
+			return convert[ngcsdata.name/]2Object([ngcsdata.name.substring(1,1).toLower()/]);
+		});
+	});
+};
+
+[/if]
+[/template]	
+
+[template private generateDelete(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Delete function /]
+exports.delete[ngcsdata.name/] = async ({ [ngcsdata.name.toLowerFirst()/]Id }) => {
+	return [ngcsdata.name/].exists({ _id: [ngcsdata.name.toLowerFirst()/]Id })
+		.then(result => {
+			if (!result) {
+				const error = new Error('[ngcsdata.name/] to delete was not found');
+				error.statusCode = 404;
+				throw error;
+			}
+			return result;
+		})
+		.then(() => {
+			return [ngcsdata.name/].deleteOne({ _id: [ngcsdata.name.toLowerFirst()/]Id })
+				.then(() => {
+					return { [ngcsdata.name.toLowerFirst()/]Id };
+				})
+		});
+};
+
+[/template]
+
+
+[template private generateGetters(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Multiple Read function/]
+exports.get[ngcsdata.name/]s = async ({ [for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))
+	separator(', ') after(', ')][key.name/]Id[/for]page, perPage }) => {
+	return [ngcsdata.name/].countDocuments([for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))
+	before('{ ') separator(',') after(' }')][key.name/]: [key.name/]Id[/for])
+		.then(count => {
+			const pageCount = Math.trunc(count / perPage) + (count % perPage > 0 ? 1 : 0);
+			if (count <= perPage * (page - 1) || (perPage * (page - 1) < 0)) {
+				const error = new Error('Pagination out of bounds.');
+				error.statusCode = 400;
+				throw error;
+			}
+			return [ngcsdata.name/].find([for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))
+			before('{ ') separator(',') after(' }')][key.name/]: [key.name/]Id[/for]).skip((page - 1) * perPage).limit(Number.parseInt(perPage))
+				.then(result => {
+					return {
+						[ngcsdata.name.toLowerFirst()/]s: result.map([ngcsdata.name.substring(1,1).toLower()/] => { return convert[ngcsdata.name/]2Object([ngcsdata.name.substring(1,1).toLower()/]); }),
+						pageCount: pageCount
+					};
+				})
+		});
+};
+
+[/template]
+
+[template private generateGetter(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Single Read function/]
+exports.get[ngcsdata.name/] = async ({ [ngcsdata.name.toLowerFirst()/]Id }) => {
+	return [ngcsdata.name/].findOne({ _id: [ngcsdata.name.toLowerFirst()/]Id })
+		.then([ngcsdata.name.toLowerFirst()/] => {
+			if (![ngcsdata.name.toLowerFirst()/]) {
+				const error = new Error('[ngcsdata.name/] not found');
+				error.statusCode = 404;
+				throw error;
+			}
+			return convert[ngcsdata.name/]2Object([ngcsdata.name.toLowerFirst()/]);
+		})
+};
+
+[/template]
+
+[template private generateAddAndRemove(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[for (aggregation : NgcsAggregation | ngcsdata.ngcsproperty->filter(NgcsAggregation))]
+[generateAdd(ngcsmodule, ngcsdata, aggregation)/]
+[generateRemove(ngcsmodule, ngcsdata, aggregation)/]
+[/for]
+[/template]
+
+[template private generateAdd(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst();}]
+exports.add[field.toUpperFirst()/]To[ngcsdata.name/] = async ({ [ngcsdata.name.toLowerFirst()/]Id, [field/]Id }) => {
+	return [ngcsdata.name/].findOne({ _id: [ngcsdata.name.toLowerFirst()/]Id })
+		.then([ngcsdata.name.toLowerFirst()/] => {
+			if (![ngcsdata.name.toLowerFirst()/]) {
+				const error = new Error('[ngcsdata.name/] not found');
+				error.statusCode = 404;
+				throw error;
+			}
+			return [ngcsdata.name.toLowerFirst()/];
+		})
+		.then([ngcsdata.name.toLowerFirst()/] => {
+			return [aggregation.refTo.name/].findOne({ _id: [field/]Id })
+				.then([field/]ToAdd => {
+					if (![field/]ToAdd) {
+						const error = new Error('[aggregation.refTo.name.toUpperFirst()/] to add not found');
+						error.statusCode = 404;
+						throw error;
+					}
+					const [ngcsdata.name.toLowerFirst()/]Object = convert[ngcsdata.name/]2Object([ngcsdata.name.toLowerFirst()/]);
+					const index = [ngcsdata.name.toLowerFirst()/]Object.[aggregation.name/].indexOf([field/]Id);
+					if (index >= 0) {
+						const error = new Error('[aggregation.refTo.name/] already in [aggregation.name/]');
+						error.statusCode = 400;
+						throw error;
+					}
+					[ngcsdata.name.toLowerFirst()/].[aggregation.name/].push([field/]Id);
+					return [ngcsdata.name.toLowerFirst()/].save()
+						.then((final[ngcsdata.name/]) => {
+							return convert[ngcsdata.name/]2Object(final[ngcsdata.name/]);
+						})
+				})
+		})
+};
+
+[/template]
+
+[template private generateRemove(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst();}]
+exports.remove[field.toUpperFirst()/]From[ngcsdata.name/] = async ({ [ngcsdata.name.toLowerFirst()/]Id, [field/]Id }) => {
+	return [ngcsdata.name/].findOne({ _id: [ngcsdata.name.toLowerFirst()/]Id })
+		.then([ngcsdata.name.toLowerFirst()/] => {
+			if (![ngcsdata.name.toLowerFirst()/]) {
+				const error = new Error('[ngcsdata.name/] not found');
+				error.statusCode = 404;
+				throw error;
+			}
+			return [ngcsdata.name.toLowerFirst()/];
+		})
+		.then([ngcsdata.name.toLowerFirst()/] => {
+			return [aggregation.refTo.name/].findOne({ _id: [field/]Id })
+				.then([aggregation.refTo.name.toLowerFirst()/]ToRemove => {
+					if (![aggregation.refTo.name.toLowerFirst()/]ToRemove) {
+						const error = new Error('[aggregation.refTo.name/] to remove not found');
+						error.statusCode = 404;
+						throw error;
+					}
+					const [ngcsdata.name.toLowerFirst()/]Object = convert[ngcsdata.name/]2Object([ngcsdata.name.toLowerFirst()/]);
+					const index = [ngcsdata.name.toLowerFirst()/]Object.[aggregation.name/].indexOf([field/]Id);
+					if (index < 0) {
+						const error = new Error('[aggregation.refTo.name/] not in [aggregation.name/]');
+						error.statusCode = 400;
+						throw error;
+					}
+					[ngcsdata.name.toLowerFirst()/].[aggregation.name/].splice(index, 1);
+					return [ngcsdata.name.toLowerFirst()/].save()
+						.then((final[ngcsdata.name/]) => {
+							return convert[ngcsdata.name/]2Object(final[ngcsdata.name/]);
+						})
+				})
+		})
+};
+
+[/template]
+
+[template private generateFindFunction(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.unique))]
+exports.find[ngcsdata.name/]By[property.name.toUpperFirst()/] = async ({ [property.name/] }) => {
+	return [ngcsdata.name/].findOne({ [property.name/]: [property.name/] })
+		.then([ngcsdata.name.toLowerFirst()/] => {
+			if (![ngcsdata.name.toLowerFirst()/]) {
+				const error = new Error('Could not find [ngcsdata.name/]');
+				error.statusCode = 404;
+				throw error;
+			}
+			return convert[ngcsdata.name/]2Object([ngcsdata.name.toLowerFirst()/]);
+		});
+};
+
+[/for]
+[/template]
+
+
+[template private generateCrypted(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Update cryptedData/]
+[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and x.crypted))]
+exports.update[ngcsdata.name/][property.name.toUpperFirst()/] = async ({ [ngcsdata.name.toLowerFirst()/]Id, new[property.name.toUpperFirst()/] }) => { 
+	const hashed[property.name.toUpperFirst()/] = await bcrypt.hash(new[property.name.toUpperFirst()/], 12);
+	return [ngcsdata.name/].findOne({ _id: [ngcsdata.name.toLowerFirst()/]Id })
+		.then([ngcsdata.name.toLowerFirst()/] => {
+	        if (![ngcsdata.name.toLowerFirst()/]) {
+	            const error = new Error('Could not find [ngcsdata.name.toLowerFirst()/].')
+	            error.statusCode = 404;
+	            throw error;
+	        }
+			[ngcsdata.name.toLowerFirst()/].[property.name/] = hashed[property.name.toUpperFirst()/];
+			return [ngcsdata.name.toLowerFirst()/].save().then([ngcsdata.name.substring(1,1).toLower()/] => {
+				return convert[ngcsdata.name/]2Object([ngcsdata.name.substring(1,1).toLower()/]);
+			});
+		})
+};
+
+[/for]
+[/template]
+
+
+

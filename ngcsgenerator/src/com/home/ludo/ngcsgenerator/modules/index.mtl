@@ -1,0 +1,16 @@
+[comment encoding = UTF-8 /]
+[module index('http://home.ludo.com/ngcsmodel')]
+
+
+[template public generateIndex(ngcsmodule : NgcsModule)]
+
+[file(ngcsmodule.name.toLower() + '/index.js', false,'UTF-8')]
+module.exports = {
+[for (ngcsdata : NgcsData | ngcsmodule.edata)]
+	[ngcsdata.name/]: require('./model/[ngcsdata.name.toLower()/]'),
+	[ngcsdata.name/]Controller: require('./controller/[ngcsdata.name.toLower()/]controller'),
+	[ngcsdata.name/]Services: require('./services/[ngcsdata.name.toLower()/]services'),
+[/for]
+};
+[/file]
+[/template]

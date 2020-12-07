@@ -1,0 +1,297 @@
+[comment encoding = UTF-8 /]
+[module controller('http://home.ludo.com/ngcsmodel')]
+[import com::home::ludo::ngcsgenerator::utils::ngcsutils/]
+
+
+[template public generateController(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+
+[file(ngcsmodule.name + '/controllers/' + ngcsdata.name.toLower() + 'controller.js', false,'UTF-8')]
+const [ngcsdata.name/]Services = require('../services/[ngcsdata.name.toLower()/]services');
+
+[generateCreate(ngcsmodule, ngcsdata)/]
+[generateUpdate(ngcsmodule, ngcsdata)/]
+[generateDelete(ngcsmodule, ngcsdata)/]
+[generateGetters(ngcsmodule, ngcsdata)/]
+[generateGetter(ngcsmodule, ngcsdata)/]
+[generateAddAndRemove(ngcsmodule, ngcsdata)/]
+[generateFindFunction(ngcsmodule, ngcsdata)/]
+[generateCrypted(ngcsmodule, ngcsdata)/]
+[/file]
+[/template]
+
+[template private generateCreate(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Create function /]
+exports.create[ngcsdata.name/] = async (req, res, next) => {
+	[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))]
+	const [property.name/] = req.body.[property.name/];
+	[/for]
+	[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))
+		before('\tif (') separator(' || ') after(') {')]![self.name/][/for]
+
+		const error = new Error('Bad arguments');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	};
+
+	[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.required and not x.default))
+	before('\treturn ' + ngcsdata.name + 'Services.create' + ngcsdata.name +'({ ')
+	separator(', ') after(' })')][property.name/][/for]
+
+		.then(response => {
+			res.status(201).json({ message: '[ngcsdata.name/] created', data: response });
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/template]
+
+[template private generateUpdate(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Update function /]
+[if (ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted)->size() > 0)]
+
+exports.update[ngcsdata.name/] = async (req, res, next) => {
+	const [ngcsdata.name.toLowerFirst()/]Id = req.body.[ngcsdata.name.toLowerFirst()/]Id;
+[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))]
+	const [property.name/] = req.body.[property.name/];
+[/for]
+	if (![ngcsdata.name.toLowerFirst()/]Id) {
+        const error = new Error('Bad arguments');
+        error.statusCode = 400;
+        next(error);	
+		return null;
+	}
+
+	[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and not x.crypted))
+	before('\treturn ' + ngcsdata.name + 'Services.update' + ngcsdata.name +'({ ' + ngcsdata.name.toLowerFirst() + 'Id, ')
+	separator(', ') after('})')][property.name/][/for]
+
+        .then(response => {
+            res.status(201).json({ message: '[ngcsdata.name/] updated', data: response });
+            return null;
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+			return null;
+        });
+};
+
+[/if]
+[/template]
+
+[template private generateDelete(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Delete function /]
+exports.delete[ngcsdata.name/] = async (req, res, next) => {
+	const [ngcsdata.name.toLowerFirst()/]Id = req.body.[ngcsdata.name.toLowerFirst()/]Id;
+	if (![ngcsdata.name.toLowerFirst()/]Id) {
+		const error = new Error('Bad arguments');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.delete[ngcsdata.name/]({ [ngcsdata.name.toLowerFirst()/]Id })
+		.then(response => {
+			res.status(200).json({ message: '[ngcsdata.name/] deleted', data: response });
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/template]
+
+[template private generateGetters(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Multiple Read function/]
+exports.get[ngcsdata.name/]s = async (req, res, next) => {
+	[for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))]
+	const [key.name/]Id = req.query.[key.name/]Id;
+	[/for]
+	const page = req.query.page;
+	const perPage = req.query.perPage;
+	if ([for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))
+	separator(' || ') after(' || ')]![key.name/]Id[/for]!page || !perPage) {
+		const error = new Error('Bad arguments.');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.get[ngcsdata.name/]s({ [for (key : NgcsReference| ngcsdata.ngcsproperty->filter(NgcsReference)->select(x|x.isKey))
+	separator(', ') after(', ')][key.name/]Id[/for]page, perPage })
+		.then(response => {
+			res.status(200).json(response);
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/template]
+
+[template private generateGetter(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Single Read function/]
+exports.get[ngcsdata.name/] = async (req, res, next) => {
+	const [ngcsdata.name.toLowerFirst()/]Id = req.query.[ngcsdata.name.toLowerFirst()/]Id;
+	if (![ngcsdata.name.toLowerFirst()/]Id) {
+		const error = new Error('Bad arguments.');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.get[ngcsdata.name/]({ [ngcsdata.name.toLowerFirst()/]Id })
+		.then(response => {
+			res.status(200).json(response);
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/template]
+
+[template private generateCrypted(ngcsmodule : NgcsModule, ngcsdata: NgcsData )]
+[comment Update cryptedData/]
+[for (property : NgcsSingleProperty | ngcsdata.ngcsproperty->filter(NgcsSingleProperty)->select(x|x.editable and x.crypted))]
+exports.update[ngcsdata.name/][property.name.toUpperFirst()/] = async (req, res, next) => {
+	const [ngcsdata.name.toLowerFirst()/]Id = req.body.[ngcsdata.name.toLowerFirst()/]Id;
+	const new[property.name.toUpperFirst()/] = req.body.['new' + property.name.toUpperFirst()/];
+
+	if (![ngcsdata.name.toLowerFirst()/]Id || !new[property.name.toUpperFirst()/]) {
+		const error = new Error('Bad arguments.');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.update[ngcsdata.name/][property.name.toUpperFirst()/]({ [ngcsdata.name.toLowerFirst()/]Id, new[property.name.toUpperFirst()/] })
+		.then(response => {
+			res.status(201).json({ message: '[property.name.toUpperFirst()/] updated', data: response });
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/for]
+[/template]
+
+[template private generateFindFunction(ngcsmodule: NgcsModule, ngcsdata : NgcsData)]
+[for (property : NgcsAttribute | ngcsdata.ngcsproperty->filter(NgcsAttribute)->select(x|x.unique))]
+exports.find[ngcsdata.name/]By[property.name.toUpperFirst()/] = async (req, res, next) => {
+	const [property.name/] = req.query.[property.name/]
+	if (![property.name/]) {
+		const error = new Error('Bad arguments.');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.find[ngcsdata.name/]By[property.name.toUpperFirst()/]({ [property.name/]: [property.name/] })
+		.then(response => {
+			res.status(200).json(response);
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/for]
+[/template]
+
+[template private generateAddAndRemove(ngcsmodule : NgcsModule, ngcsdata: NgcsData)]
+[for (aggregation : NgcsAggregation | ngcsdata.ngcsproperty->filter(NgcsAggregation))]
+[generateAdd(ngcsmodule, ngcsdata, aggregation)/]
+[generateRemove(ngcsmodule, ngcsdata, aggregation)/]
+[/for]
+[/template]
+
+[template private generateAdd(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst(); }]
+exports.add[field.toUpperFirst()/]To[ngcsdata.name/] = async (req, res, next) => {
+	const [ngcsdata.name.toLowerFirst()/]Id = req.body.[ngcsdata.name.toLowerFirst()/]Id;
+	const [field/]Id = req.body.[field/]Id;
+	if (![ngcsdata.name.toLowerFirst()/]Id || ![field/]Id) {
+		const error = new Error('Bad arguments.');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.add[field.toUpperFirst()/]To[ngcsdata.name/]({ [ngcsdata.name.toLowerFirst()/]Id: [ngcsdata.name.toLowerFirst()/]Id, [field/]Id: [field/]Id })
+		.then(response => {
+			res.status(200).json({ message: '[field/] added', data: response });
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/template]
+
+[template private generateRemove(ngcsmodule : NgcsModule, ngcsdata: NgcsData, aggregation: NgcsAggregation) { field: String = ngcsdata.createElementName(aggregation).toLowerFirst(); }]
+exports.remove[field.toUpperFirst()/]From[ngcsdata.name/] = async (req, res, next) => {
+	const [ngcsdata.name.toLowerFirst()/]Id = req.body.[ngcsdata.name.toLowerFirst()/]Id;
+	const [field/]Id = req.body.[field/]Id;
+	if (![ngcsdata.name.toLowerFirst()/]Id || ![field/]Id) {
+		const error = new Error('Bad arguments.');
+		error.statusCode = 400;
+		next(error);
+		return null;
+	}
+
+	return [ngcsdata.name/]Services.remove[field.toUpperFirst()/]From[ngcsdata.name/]({ [ngcsdata.name.toLowerFirst()/]Id: [ngcsdata.name.toLowerFirst()/]Id, [field/]Id: [field/]Id })
+		.then(response => {
+			res.status(200).json({ message: '[field/] removed', data: response });
+			return null;
+		})
+		.catch(err => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+			return null;
+		});
+};
+
+[/template]
