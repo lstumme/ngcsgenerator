@@ -187,13 +187,31 @@ public interface NgcsmodelPackage extends EPackage {
 	int NGCS_MODULE__EDATA = 1;
 
 	/**
+	 * The feature id for the '<em><b>GUI Module</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NGCS_MODULE__GUI_MODULE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Server Module</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NGCS_MODULE__SERVER_MODULE = 3;
+
+	/**
 	 * The number of structural features of the '<em>Ngcs Module</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NGCS_MODULE_FEATURE_COUNT = 2;
+	int NGCS_MODULE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Ngcs Module</em>' class.
@@ -751,6 +769,28 @@ public interface NgcsmodelPackage extends EPackage {
 	EReference getNgcsModule_Edata();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#isGUIModule <em>GUI Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>GUI Module</em>'.
+	 * @see com.home.ludo.ngcs.ngcsmodel.NgcsModule#isGUIModule()
+	 * @see #getNgcsModule()
+	 * @generated
+	 */
+	EAttribute getNgcsModule_GUIModule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#isServerModule <em>Server Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Server Module</em>'.
+	 * @see com.home.ludo.ngcs.ngcsmodel.NgcsModule#isServerModule()
+	 * @see #getNgcsModule()
+	 * @generated
+	 */
+	EAttribute getNgcsModule_ServerModule();
+
+	/**
 	 * Returns the meta object for class '{@link com.home.ludo.ngcs.ngcsmodel.NgcsProperty <em>Ngcs Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1049,6 +1089,22 @@ public interface NgcsmodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NGCS_MODULE__EDATA = eINSTANCE.getNgcsModule_Edata();
+
+		/**
+		 * The meta object literal for the '<em><b>GUI Module</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NGCS_MODULE__GUI_MODULE = eINSTANCE.getNgcsModule_GUIModule();
+
+		/**
+		 * The meta object literal for the '<em><b>Server Module</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NGCS_MODULE__SERVER_MODULE = eINSTANCE.getNgcsModule_ServerModule();
 
 		/**
 		 * The meta object literal for the '{@link com.home.ludo.ngcs.ngcsmodel.impl.NgcsPropertyImpl <em>Ngcs Property</em>}' class.

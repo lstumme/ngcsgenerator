@@ -275,6 +275,26 @@ public class NgcsmodelPackageImpl extends EPackageImpl implements NgcsmodelPacka
 	 * @generated
 	 */
 	@Override
+	public EAttribute getNgcsModule_GUIModule() {
+		return (EAttribute) ngcsModuleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getNgcsModule_ServerModule() {
+		return (EAttribute) ngcsModuleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getNgcsProperty() {
 		return ngcsPropertyEClass;
 	}
@@ -491,6 +511,8 @@ public class NgcsmodelPackageImpl extends EPackageImpl implements NgcsmodelPacka
 		ngcsModuleEClass = createEClass(NGCS_MODULE);
 		createEAttribute(ngcsModuleEClass, NGCS_MODULE__NAME);
 		createEReference(ngcsModuleEClass, NGCS_MODULE__EDATA);
+		createEAttribute(ngcsModuleEClass, NGCS_MODULE__GUI_MODULE);
+		createEAttribute(ngcsModuleEClass, NGCS_MODULE__SERVER_MODULE);
 
 		ngcsPropertyEClass = createEClass(NGCS_PROPERTY);
 		createEAttribute(ngcsPropertyEClass, NGCS_PROPERTY__NAME);
@@ -584,6 +606,12 @@ public class NgcsmodelPackageImpl extends EPackageImpl implements NgcsmodelPacka
 		initEReference(getNgcsModule_Edata(), this.getNgcsData(), null, "edata", null, 0, -1, NgcsModule.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNgcsModule_GUIModule(), theXMLTypePackage.getBoolean(), "GUIModule", null, 0, 1,
+				NgcsModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNgcsModule_ServerModule(), theXMLTypePackage.getBoolean(), "serverModule", null, 0, 1,
+				NgcsModule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		initEClass(ngcsPropertyEClass, NgcsProperty.class, "NgcsProperty", IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);

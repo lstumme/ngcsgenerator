@@ -32,6 +32,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link com.home.ludo.ngcs.ngcsmodel.impl.NgcsModuleImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.home.ludo.ngcs.ngcsmodel.impl.NgcsModuleImpl#getEdata <em>Edata</em>}</li>
+ *   <li>{@link com.home.ludo.ngcs.ngcsmodel.impl.NgcsModuleImpl#isGUIModule <em>GUI Module</em>}</li>
+ *   <li>{@link com.home.ludo.ngcs.ngcsmodel.impl.NgcsModuleImpl#isServerModule <em>Server Module</em>}</li>
  * </ul>
  *
  * @generated
@@ -66,6 +68,46 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 	 * @ordered
 	 */
 	protected EList<NgcsData> edata;
+
+	/**
+	 * The default value of the '{@link #isGUIModule() <em>GUI Module</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isGUIModule()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean GUI_MODULE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isGUIModule() <em>GUI Module</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isGUIModule()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean guiModule = GUI_MODULE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isServerModule() <em>Server Module</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isServerModule()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SERVER_MODULE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isServerModule() <em>Server Module</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isServerModule()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean serverModule = SERVER_MODULE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -128,6 +170,54 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 	 * @generated
 	 */
 	@Override
+	public boolean isGUIModule() {
+		return guiModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setGUIModule(boolean newGUIModule) {
+		boolean oldGUIModule = guiModule;
+		guiModule = newGUIModule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NgcsmodelPackage.NGCS_MODULE__GUI_MODULE,
+					oldGUIModule, guiModule));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isServerModule() {
+		return serverModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setServerModule(boolean newServerModule) {
+		boolean oldServerModule = serverModule;
+		serverModule = newServerModule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NgcsmodelPackage.NGCS_MODULE__SERVER_MODULE,
+					oldServerModule, serverModule));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case NgcsmodelPackage.NGCS_MODULE__EDATA:
@@ -148,6 +238,10 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 			return getName();
 		case NgcsmodelPackage.NGCS_MODULE__EDATA:
 			return getEdata();
+		case NgcsmodelPackage.NGCS_MODULE__GUI_MODULE:
+			return isGUIModule();
+		case NgcsmodelPackage.NGCS_MODULE__SERVER_MODULE:
+			return isServerModule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -168,6 +262,12 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 			getEdata().clear();
 			getEdata().addAll((Collection<? extends NgcsData>) newValue);
 			return;
+		case NgcsmodelPackage.NGCS_MODULE__GUI_MODULE:
+			setGUIModule((Boolean) newValue);
+			return;
+		case NgcsmodelPackage.NGCS_MODULE__SERVER_MODULE:
+			setServerModule((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -186,6 +286,12 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 		case NgcsmodelPackage.NGCS_MODULE__EDATA:
 			getEdata().clear();
 			return;
+		case NgcsmodelPackage.NGCS_MODULE__GUI_MODULE:
+			setGUIModule(GUI_MODULE_EDEFAULT);
+			return;
+		case NgcsmodelPackage.NGCS_MODULE__SERVER_MODULE:
+			setServerModule(SERVER_MODULE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -202,6 +308,10 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		case NgcsmodelPackage.NGCS_MODULE__EDATA:
 			return edata != null && !edata.isEmpty();
+		case NgcsmodelPackage.NGCS_MODULE__GUI_MODULE:
+			return guiModule != GUI_MODULE_EDEFAULT;
+		case NgcsmodelPackage.NGCS_MODULE__SERVER_MODULE:
+			return serverModule != SERVER_MODULE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -219,6 +329,10 @@ public class NgcsModuleImpl extends MinimalEObjectImpl.Container implements Ngcs
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", GUIModule: ");
+		result.append(guiModule);
+		result.append(", serverModule: ");
+		result.append(serverModule);
 		result.append(')');
 		return result.toString();
 	}

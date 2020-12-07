@@ -57,6 +57,8 @@ public class NgcsModuleItemProvider extends ItemProviderAdapter implements IEdit
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addGUIModulePropertyDescriptor(object);
+			addServerModulePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -75,6 +77,38 @@ public class NgcsModuleItemProvider extends ItemProviderAdapter implements IEdit
 								"_UI_NgcsModule_type"),
 						NgcsmodelPackage.Literals.NGCS_MODULE__NAME, true, false, false,
 						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the GUI Module feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addGUIModulePropertyDescriptor(Object object) {
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(), getString("_UI_NgcsModule_GUIModule_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_NgcsModule_GUIModule_feature",
+								"_UI_NgcsModule_type"),
+						NgcsmodelPackage.Literals.NGCS_MODULE__GUI_MODULE, true, false, false,
+						ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Server Module feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addServerModulePropertyDescriptor(Object object) {
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(), getString("_UI_NgcsModule_serverModule_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_NgcsModule_serverModule_feature",
+								"_UI_NgcsModule_type"),
+						NgcsmodelPackage.Literals.NGCS_MODULE__SERVER_MODULE, true, false, false,
+						ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -154,6 +188,8 @@ public class NgcsModuleItemProvider extends ItemProviderAdapter implements IEdit
 
 		switch (notification.getFeatureID(NgcsModule.class)) {
 		case NgcsmodelPackage.NGCS_MODULE__NAME:
+		case NgcsmodelPackage.NGCS_MODULE__GUI_MODULE:
+		case NgcsmodelPackage.NGCS_MODULE__SERVER_MODULE:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case NgcsmodelPackage.NGCS_MODULE__EDATA:

@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#getName <em>Name</em>}</li>
  *   <li>{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#getEdata <em>Edata</em>}</li>
+ *   <li>{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#isGUIModule <em>GUI Module</em>}</li>
+ *   <li>{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#isServerModule <em>Server Module</em>}</li>
  * </ul>
  *
  * @see com.home.ludo.ngcs.ngcsmodel.NgcsmodelPackage#getNgcsModule()
@@ -61,5 +63,49 @@ public interface NgcsModule extends EObject {
 	 * @generated
 	 */
 	EList<NgcsData> getEdata();
+
+	/**
+	 * Returns the value of the '<em><b>GUI Module</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>GUI Module</em>' attribute.
+	 * @see #setGUIModule(boolean)
+	 * @see com.home.ludo.ngcs.ngcsmodel.NgcsmodelPackage#getNgcsModule_GUIModule()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @generated
+	 */
+	boolean isGUIModule();
+
+	/**
+	 * Sets the value of the '{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#isGUIModule <em>GUI Module</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>GUI Module</em>' attribute.
+	 * @see #isGUIModule()
+	 * @generated
+	 */
+	void setGUIModule(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Server Module</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Server Module</em>' attribute.
+	 * @see #setServerModule(boolean)
+	 * @see com.home.ludo.ngcs.ngcsmodel.NgcsmodelPackage#getNgcsModule_ServerModule()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @generated
+	 */
+	boolean isServerModule();
+
+	/**
+	 * Sets the value of the '{@link com.home.ludo.ngcs.ngcsmodel.NgcsModule#isServerModule <em>Server Module</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Server Module</em>' attribute.
+	 * @see #isServerModule()
+	 * @generated
+	 */
+	void setServerModule(boolean value);
 
 } // NgcsModule

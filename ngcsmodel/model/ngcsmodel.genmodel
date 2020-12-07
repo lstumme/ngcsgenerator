@@ -28,6 +28,8 @@
     <genClasses ecoreClass="ngcsmodel.ecore#//NgcsModule">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ngcsmodel.ecore#//NgcsModule/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ngcsmodel.ecore#//NgcsModule/edata"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ngcsmodel.ecore#//NgcsModule/GUIModule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ngcsmodel.ecore#//NgcsModule/serverModule"/>
     </genClasses>
     <genClasses ecoreClass="ngcsmodel.ecore#//NgcsProperty">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ngcsmodel.ecore#//NgcsProperty/name"/>
